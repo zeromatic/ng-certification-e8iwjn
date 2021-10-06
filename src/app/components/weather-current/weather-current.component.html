@@ -1,0 +1,25 @@
+<div class="well flex" *ngIf="(weather$ | async) as city; else noWeather">
+  <div>
+    <h3>{{city.name}} ({{zip}})</h3>
+    <h4>Current conditions: {{city.weather[0]?.main ? city.weather[0]?.main : '-'}} </h4>
+    <h4>Temperatures today:</h4>
+    <p>
+      Current {{city.main.temp | number: '1.0-0'}}
+      - Max {{city.main.temp_max | number: '1.0-0'}}
+      - Min {{city.main.temp_min | number: '1.0-0'}}
+    </p>
+    <p>
+      <a [routerLink]="'/forecast/'+zip">Show 5-day forecast for {{city.name}}</a>
+    </p>
+  </div>
+  <div>
+    <span (click)="removeZip()" class="close">×</span>
+    <app-weather-image [icon]="city.weather[0]?.icon"></app-weather-image>
+  </div>
+</div>
+<ng-template #noWeather>
+  <div class="well flex">
+       Unable to retrieve current weather for {{zip}}
+    <span (click)="removeZip()" class="close">×</span>
+  </div>
+</ng-template>
